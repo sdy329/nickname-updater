@@ -26,7 +26,6 @@ const error = (interaction: ChatInputCommandInteraction, content: string) => {
 })
 export class UpdateNicknameCommand extends Command {
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-        await interaction.deferReply({ ephemeral: false });
 
         if (!interaction.inGuild()) {
             await error(interaction, 'Command only available in servers');
@@ -54,7 +53,7 @@ export class UpdateNicknameCommand extends Command {
 
         const timeoutModal = new ModalBuilder()
             .setCustomId(ModalId.Update)
-            .setTitle('')
+            .setTitle(' ')
             .setComponents(
                 new ActionRowBuilder<TextInputBuilder>().setComponents(
                     new TextInputBuilder()
@@ -71,6 +70,14 @@ export class UpdateNicknameCommand extends Command {
                         .setStyle(TextInputStyle.Short)
                         .setPlaceholder('')
                         .setRequired(true)
+                ),
+                new ActionRowBuilder<TextInputBuilder>().setComponents(
+                    new TextInputBuilder()
+                        .setCustomId(InputId.Spaces)
+                        .setLabel('Add Spaces?')
+                        .setStyle(TextInputStyle.Short)
+                        .setPlaceholder('Yes or No')
+                        .setRequired(false)
                 )
             );
         await interaction.showModal(timeoutModal);

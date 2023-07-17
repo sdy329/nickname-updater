@@ -6,4 +6,5 @@
   export enum InputId {
     Find = 'find',
     Replace = 'replace',
+    Spaces = 'spaces',
   }

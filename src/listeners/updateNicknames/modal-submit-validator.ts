@@ -41,6 +41,25 @@ export class InteractionCreateListener extends Listener<
             );
         }
 
+        const spaces = interaction.fields.getTextInputValue(InputId.Spaces);
+        let spaceStatus = false;
+        if (!spaces) {
+            spaceStatus = false;
+        }
+        else if (spaces.toLowerCase() == 'yes') {
+            spaceStatus = true;
+        }
+        else if (spaces.toLowerCase() == 'no') {
+            spaceStatus = false;
+        }
+        else {
+            return this.sendValidationFailure(
+                interaction,
+                'Add Spaces input may only contain yes or no'
+            );
+        }
+
+
         const guild = await interaction.client.guilds.fetch(interaction.guildId);
         const member = await guild.members.fetch(interaction.member.user.id);
 
@@ -48,22 +67,42 @@ export class InteractionCreateListener extends Listener<
         let changeCount = 0;
         let errorCount = 0;
 
-        await Promise.all(
-            members.map(async (member) => {
-                if (member.displayName.includes(find)) {
-                    try {
-                        await member.setNickname(
-                            member.displayName.replace(find, replace)
-                        );
-                        console.log(`Changed nickname for ${member.user.tag}: ${member.displayName}`);
-                        changeCount++;
-                    } catch (error) {
-                        console.error(`Failed to change nickname for ${member.user.tag}`);
-                        errorCount++;
+        if (spaceStatus) {
+            await Promise.all(
+                members.map(async (member) => {
+                    if (member.displayName.includes(' ' + find + ' ')) {
+                        try {
+                            await member.setNickname(
+                                member.displayName.replace(' ' + find + ' ', replace)
+                            );
+                            console.log(`Changed nickname for ${member.user.tag}: ${member.displayName}`);
+                            changeCount++;
+                        } catch (error) {
+                            console.error(`Failed to change nickname for ${member.user.tag}`);
+                            errorCount++;
+                        }
                     }
-                }
-            })
-        );
+                })
+            );
+        }
+        else {
+            await Promise.all(
+                members.map(async (member) => {
+                    if (member.displayName.includes(find)) {
+                        try {
+                            await member.setNickname(
+                                member.displayName.replace(find, replace)
+                            );
+                            console.log(`Changed nickname for ${member.user.tag}: ${member.displayName}`);
+                            changeCount++;
+                        } catch (error) {
+                            console.error(`Failed to change nickname for ${member.user.tag}`);
+                            errorCount++;
+                        }
+                    }
+                })
+            );
+        }
 
         interaction.editReply({
             embeds: [
