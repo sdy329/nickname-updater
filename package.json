@@ -1,0 +1,47 @@
+{
+  "name": "nickname-updater",
+  "version": "1.0.0",
+  "description": "Discord bot that helps update nicknames.",
+  "keywords": [
+    "Discord",
+    "bot"
+  ],
+  "homepage": "https://github.com/sdy329/nickname-updater#readme",
+  "bugs": "https://github.com/sdy329/nickname-updater/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Spencer Yates",
+    "url": "https://github.com/sdy329"
+  },
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdy329/nickname-updater.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist",
+    "dev": "tsc-watch --onSuccess \"yarn start\"",
+    "start": "node dist"
+  },
+  "dependencies": {
+    "@sapphire/decorators": "^6.0.0",
+    "@sapphire/framework": "^4.2.2",
+    "@sapphire/plugin-logger": "^3.0.1",
+    "@sapphire/plugin-subcommands": "^4.0.0",
+    "colorette": "^2.0.19",
+    "discord.js": "^14.8.0",
+    "dotenv": "^16.0.3",
+    "lru-cache": "^8.0.4",
+    "mongodb": "^5.1.0"
+  },
+  "devDependencies": {
+    "@sapphire/ts-config": "^3.3.4",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^5.0.3"
+  },
+  "engines": {
+    "node": ">=16.9.0"
+  },
+  "packageManager": "yarn@3.5.0"
+}
